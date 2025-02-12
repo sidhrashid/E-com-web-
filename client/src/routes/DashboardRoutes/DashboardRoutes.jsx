@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import NotFound from "../../pages/error/NotFound";
-import Products from "../../components/dashboardCompo/Products/Products";
+import Products from "../../components/dashboardCompo/Products/ShowAllProducts";
 import Dashboard from "../../components/dashboardCompo/Dashboard";
 function DashboardRoute() {
   return (
