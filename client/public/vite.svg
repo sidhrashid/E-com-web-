@@ -1,0 +1,53 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="40"
+    height="40"
+    viewBox="0 0 32 32"
+    aria-hidden="true"
+    role="img"
+>
+    <defs>
+        <!-- Gradient for the cart -->
+        <linearGradient id="cartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F4A300" />
+            <stop offset="100%" stop-color="#FF6F61" />
+        </linearGradient>
+        <!-- Gradient for the wheels -->
+        <linearGradient id="wheelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#404040" />
+            <stop offset="100%" stop-color="#808080" />
+        </linearGradient>
+    </defs>
+
+    <!-- Cart Body -->
+    <path
+        fill="url(#cartGradient)"
+        d="M24 6H8C7.4 6 7 6.4 7 7V23C7 23.6 7.4 24 8 24H24C24.6 24 25 23.6 25 23V7C25 6.4 24.6 6 24 6Z"
+    />
+
+    <!-- Cart Handle -->
+    <path
+        fill="url(#cartGradient)"
+        d="M10 5L10 7"
+        stroke="#F4A300"
+        stroke-width="2"
+    />
+
+    <!-- Cart Wheels -->
+    <circle cx="10" cy="26" r="3" fill="url(#wheelGradient)" />
+    <circle cx="22" cy="26" r="3" fill="url(#wheelGradient)" />
+
+    <!-- Decorative Lines for the Cart -->
+    <path
+        fill="none"
+        stroke="#FFF"
+        stroke-width="1"
+        d="M8 12H24"
+    />
+    <path
+        fill="none"
+        stroke="#FFF"
+        stroke-width="1"
+        d="M8 16H24"
+    />
+</svg>
