@@ -22,9 +22,7 @@ const Sidebar = ({ isOpen }) => {
             </NavLink>
           </li>
           <li
-            className={
-              location.pathname === "/admin/products" ? "active" : ""
-            }
+            className={location.pathname === "/admin/products" ? "active" : ""}
           >
             <NavLink to="/admin/products">
               <i className="bx bxs-shopping-bag-alt"></i>
@@ -32,13 +30,14 @@ const Sidebar = ({ isOpen }) => {
             </NavLink>
           </li>
           <li
-            className={
-              location.pathname === "/admin/category" ? "active" : ""
-            }
+            className={location.pathname === "/admin/category" ? "active" : ""}
           >
             <NavLink to="/admin/category">
-              <i className="bx bxs-shopping-bag-alt"></i>
-              <span className="text">Categories</span>
+              {/* <i className="bx bxs-shopping-bag-alt"></i> */}
+              <span className="pl-2">
+                <box-icon name="category"></box-icon>
+              </span>
+              <span className="px-2 pb-1 text">Categories</span>
             </NavLink>
           </li>
           <li
