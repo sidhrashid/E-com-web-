@@ -16,7 +16,7 @@ function DashboardRoute() {
         <Route path="/category" element={<ShowCategory />} />
         <Route path="/updatecategory/:id" element={<UpdateCategory />} />
         <Route path="/addcategory" element={<AddCategory />} />
-        <Route path="/add" element={<AddProducts />} />
+        <Route path="/addproduct" element={<AddProducts />} />
         <Route path="/update/:id" element={<UpdateProducts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

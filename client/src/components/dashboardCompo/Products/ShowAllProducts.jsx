@@ -46,7 +46,7 @@ const Product = () => {
           {/* Add Button */}
           <div className="flex items-center justify-between pb-4 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-800">Products</h2>
-            <NavLink to="/admin/add">
+            <NavLink to="/admin/addproduct">
               <button className="bg-blue-500 text-white px-3 py-1.5 text-sm rounded-lg shadow-md hover:bg-blue-600 transition">
                 + Add
               </button>

@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Hoc from "../Hoc";
 
 const AddApi = import.meta.env.VITE_ADD_API;
 const CategoryApi = import.meta.env.VITE_CATEGORY_API;
@@ -73,85 +74,112 @@ function AddProducts() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-6">Add Products</h1>
-      <form onSubmit={handleSubmit}>
-        <label className="block text-sm font-medium text-gray-700">Name</label>
-        <input
-          type="text"
-          name="name"
-          value={products.name}
-          onChange={handleChange}
-          placeholder="Product Name"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          required
-        />
+    <>
+      <Hoc />
+      <section id="content">
+        <main>
+          <div className="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-2xl border border-gray-100">
+            <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+              Add Product
+            </h3>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={products.name}
+                    onChange={handleChange}
+                    placeholder="Enter Product Name"
+                    className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Price
+                  </label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={products.price}
+                    onChange={handleChange}
+                    placeholder="Enter Price"
+                    className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
 
-        <label className="block text-sm font-medium text-gray-700 mt-4">
-          Price
-        </label>
-        <input
-          type="number"
-          name="price"
-          value={products.price}
-          onChange={handleChange}
-          placeholder="Price"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          required
-        />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Category
+                  </label>
 
-        <label className="block text-sm font-medium text-gray-700 mt-4">
-          Image
-        </label>
-        <input
-          type="file"
-          name="image"
-          onChange={handleChange}
-          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-        />
+                  <select
+                    name="category_id"
+                    value={products.category_id}
+                    onChange={handleChange}
+                    className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    required
+                  >
+                    <option value="">Select a category</option>
+                    {data.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Image
+                  </label>
+                  <input
+                    type="file"
+                    name="image"
+                    onChange={handleChange}
+                    className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
 
-        <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Category ID
-          </label>
-          <select
-            name="category_id"
-            value={products.category_id}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            required
-          >
-            <option value="">Select a category</option>
-            {data.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.title}
-              </option>
-            ))}
-          </select>
-        </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Description
+                </label>
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={products.description}
+                  onChange={(event, editor) =>
+                    setProducts({ ...products, description: editor.getData() })
+                  }
+                />
+              </div>
 
-        {/* CKEditor for Description */}
-        <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Description:
-          </label>
-          <CKEditor
-            editor={ClassicEditor}
-            data={products.description}
-            onChange={(event, editor) =>
-              setProducts({ ...products, description: editor.getData() })
-            }
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="mt-6 w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+              <div className="flex sm:justify-end justify-center space-x-3">
+                <NavLink to="/admin/allproducts">
+                  <button
+                    type="button"
+                    className="bg-gray-400 text-white px-3 py-1 sm:px-5 sm:py-2 rounded-lg hover:bg-gray-500 transition font-medium"
+                  >
+                    Cancel
+                  </button>
+                </NavLink>
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-3 py-1 sm:px-5 sm:py-2 rounded-lg hover:bg-blue-700 transition font-medium shadow-lg"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </main>
+      </section>
+    </>
   );
 }
 
