@@ -9,6 +9,7 @@ const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key";
 const registerNewUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    // console.log(req.body)
 
     const hashPassword = await bcrypt.hash(password, 10);
 
@@ -34,6 +35,7 @@ const registerNewUser = async (req, res) => {
 
 //  ===================== LOGIN ======================= //
 const loginUser = async (req, res) => {
+  console.log(req.body)
   try {
     const { email, password } = req.body;
 

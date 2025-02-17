@@ -33,12 +33,12 @@ const Sidebar = ({ isOpen }) => {
           </li>
           <li
             className={
-              location.pathname === "/admin/dashboard2" ? "active" : ""
+              location.pathname === "/admin/category" ? "active" : ""
             }
           >
-            <NavLink to="/admin/dashboard">
+            <NavLink to="/admin/category">
               <i className="bx bxs-shopping-bag-alt"></i>
-              <span className="text">Product</span>
+              <span className="text">Categories</span>
             </NavLink>
           </li>
           <li

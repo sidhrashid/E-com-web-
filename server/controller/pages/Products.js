@@ -10,9 +10,9 @@ const getAllProducts = (req, res) => {
   });
 };
 const getProductsById = (req, res) => {
-  const id = req.params;
+  const id = req.params.id;
   const q = "SELECT * FROM products WHERE id =?";
-  db.query(id, q, (err, result) => {
+  db.query(q, id, (err, result) => {
     if (err) {
       return res.status(500);
     }
@@ -21,16 +21,24 @@ const getProductsById = (req, res) => {
 };
 
 const addProducts = (req, res) => {
-  const { name, price, description } = req.body;
+  const { name, price, description, category_id } = req.body;
   const image = req.file ? req.file.filename : null;
+
   const q =
-    "INSERT INTO product (name, price, description,image) VALUES (?,?,?,?)";
-  const values = [name, price, description, image];
+    "INSERT INTO products (name, price, description, image,  category_id) VALUES (?,?,?,?,?)";
+
+  const values = [name, price, description, image, category_id];
+
   db.query(q, values, (err, data) => {
     if (err) {
-      return res.status(500);
+      console.error("Database Error:", err); // Debugging error
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-    return res.json(data);
+    return res.json({
+      success: true,
+      message: "Product added successfully",
+      data,
+    });
   });
 };
 
@@ -49,8 +57,8 @@ const updateProducts = (req, res) => {
   });
 };
 const deleteProducts = (req, res) => {
-  const id = req.params;
-  const q = "DELETE FROM products WHERE id";
+  const id = req.params.id;
+  const q = "DELETE FROM products WHERE id =?";
   db.query(q, id, (err, result) => {
     if (err) {
       return res.status(500);
@@ -60,7 +68,7 @@ const deleteProducts = (req, res) => {
 };
 
 const getProductsByCategory = (req, res) => {
-  const category = req.params.categories;
+  const category = req.params.category;
   console.log(category);
   const q = "SELECT * FROM products WHERE category_id = ?";
   db.query(q, category, (err, result) => {

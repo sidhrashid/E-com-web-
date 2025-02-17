@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Hoc from "../Hoc";
-import ProductPopup from "./ProductPopup";
+import { NavLink } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL;
 const GET_API = import.meta.env.VITE_GET_API;
-
-const fullUrl = `${API_URL}${GET_API}`;
+const DeleteApi = import.meta.env.VITE_DELETE_API;
 
 const Product = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [product, setProduct] = useState([]);
 
   useEffect(() => {
@@ -18,15 +15,27 @@ const Product = () => {
 
   const fetchProduct = async () => {
     try {
-      const res = await axios.get(fullUrl);
+      const res = await axios.get(`${GET_API}`);
       setProduct(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleAddClick = () => {
-    setIsOpen(true);
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
+
+    try {
+      await axios.delete(`${DeleteApi}${id}`);
+      fetchProduct();
+    } catch (error) {
+      console.error(
+        "Error deleting product:",
+        error.response?.data || error.message
+      );
+      alert("Failed to delete product. Please try again.");
+    }
   };
 
   return (
@@ -37,12 +46,11 @@ const Product = () => {
           {/* Add Button */}
           <div className="flex items-center justify-between pb-4 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-800">Products</h2>
-            <button
-              onClick={handleAddClick}
-              className="bg-blue-500 text-white px-3 py-1.5 text-sm rounded-lg shadow-md hover:bg-blue-600 transition"
-            >
-              + Add
-            </button>
+            <NavLink to="/admin/add">
+              <button className="bg-blue-500 text-white px-3 py-1.5 text-sm rounded-lg shadow-md hover:bg-blue-600 transition">
+                + Add
+              </button>
+            </NavLink>
           </div>
 
           {/* Product Table */}
@@ -57,7 +65,6 @@ const Product = () => {
                 <th className="px-4 py-3 w-24">Image</th>
                 <th className="px-4 py-3 w-32">Name</th>
                 <th className="px-4 py-3 w-56">Description</th>{" "}
-                {/* Fixed Width */}
                 <th className="px-4 py-3 w-24">Price</th>
                 <th className="px-4 py-3 w-24">Status</th>
                 <th className="px-4 py-3 w-24">Action</th>
@@ -73,7 +80,7 @@ const Product = () => {
                   <td className="px-4 py-3 text-center">{item.category_id}</td>
                   <td className="px-4 py-3 flex justify-center">
                     <img
-                      src={item.image}
+                      src={`/uploads/${item.image}`}
                       alt="product"
                       className="w-10 h-10 rounded-full border border-gray-300"
                     />
@@ -95,12 +102,17 @@ const Product = () => {
 
                   <td className="text-center space-x-1">
                     {/* Edit Button */}
-                    <button className=" px-2 py-1 border  text-blue-600 rounded-md hover:bg-gray-100 transition duration-300">
-                      <i className="fa-solid fa-pencil text-sm"></i>
-                    </button>
+                    <NavLink to={`/admin/update/${item.id}`}>
+                      <button className=" px-2 py-1 border  text-blue-600 rounded-md hover:bg-gray-100 transition duration-300">
+                        <i className="fa-solid fa-pencil text-sm"></i>
+                      </button>
+                    </NavLink>
 
                     {/* Delete Button */}
-                    <button className="px-2 py-1 text-red-600 rounded-md border hover:bg-gray-100 transition duration-300">
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="px-2 py-1 text-red-600 rounded-md border hover:bg-gray-100 transition duration-300"
+                    >
                       <i className="fa-solid fa-trash text-sm"></i>
                     </button>
                   </td>
@@ -110,12 +122,6 @@ const Product = () => {
           </table>
         </main>
       </section>
-
-      {/* ===============================================Modal==================================================== */}
-
-      {isOpen && (
-        <ProductPopup isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      )}
     </>
   );
 };

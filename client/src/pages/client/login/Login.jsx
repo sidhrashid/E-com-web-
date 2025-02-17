@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const LOGIN_API = import.meta.env.VITE_LOGIN_API;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`${API_URL}/loginuser`, formData);
+      const res = await axios.post(`${LOGIN_API}`, formData);
 
       console.log("Backend Response:", res.data);
 
