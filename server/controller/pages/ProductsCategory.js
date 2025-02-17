@@ -12,11 +12,9 @@ const getCategories = (req, res) => {
 
 const addCategory = (req, res) => {
   const title = req.body.title;
-  const image = req.file ? req.file.filetitle : null;
-
+  const image = req.file ? req.file.filename : null;
   const q = "INSERT INTO categories (title, image) VALUES (?, ?)";
   const values = [title, image];
-
   db.query(q, values, (err, result) => {
     if (err) {
       console.log(err);
@@ -28,16 +26,20 @@ const addCategory = (req, res) => {
 };
 
 const updateCategory = (req, res) => {
-  const id = req.params;
+  const { id } = req.params;
   const { title } = req.body;
   const image = req.file ? req.file.filename : req.body.image;
-  const q = "UPDATE products SET title =? , image=? WHERE id =?";
+  const q = "UPDATE categories SET title = ?, image = ? WHERE id = ?";
   const values = [title, image, id];
   db.query(q, values, (err, result) => {
     if (err) {
-      return res.status(500);
+      return res.status(500).json({ error: err.message });
     }
-    return res.json(result);
+    return res.json({
+      success: true,
+      message: "Category updated successfully",
+      result,
+    });
   });
 };
 
@@ -63,4 +65,10 @@ const deleteCategory = (req, res) => {
   });
 };
 
-module.exports = { getCategories, addCategory, deleteCategory, updateCategory,getCategoryById };
+module.exports = {
+  getCategories,
+  addCategory,
+  deleteCategory,
+  updateCategory,
+  getCategoryById,
+};

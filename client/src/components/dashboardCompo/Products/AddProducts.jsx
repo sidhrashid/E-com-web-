@@ -141,6 +141,7 @@ function AddProducts() {
                     type="file"
                     name="image"
                     onChange={handleChange}
+                    required
                     className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
@@ -151,6 +152,7 @@ function AddProducts() {
                   Description
                 </label>
                 <CKEditor
+                  required
                   editor={ClassicEditor}
                   data={products.description}
                   onChange={(event, editor) =>
@@ -160,7 +162,7 @@ function AddProducts() {
               </div>
 
               <div className="flex sm:justify-end justify-center space-x-3">
-                <NavLink to="/admin/allproducts">
+                <NavLink to="/admin/products">
                   <button
                     type="button"
                     className="bg-gray-400 text-white px-3 py-1 sm:px-5 sm:py-2 rounded-lg hover:bg-gray-500 transition font-medium"

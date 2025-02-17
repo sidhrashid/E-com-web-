@@ -182,7 +182,7 @@ function UpdateProducts() {
               </div>
 
               <div className="flex sm:justify-end justify-center space-x-3">
-                <NavLink to="/admin/allproducts">
+                <NavLink to="/admin/products">
                   <button
                     type="button"
                     className="bg-gray-400 text-white px-3 py-1 sm:px-5 sm:py-2 rounded-lg hover:bg-gray-500 transition font-medium"

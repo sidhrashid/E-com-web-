@@ -43,8 +43,9 @@ const addProducts = (req, res) => {
 };
 
 const updateProducts = (req, res) => {
-  const id = req.params;
+  const { id } = req.params;
   const { name, price, description } = req.body;
+  console.log(req.body);
   const image = req.file ? req.file.filename : req.body.image;
   const q =
     "UPDATE products SET name =? ,price =? ,description =?, image=? WHERE id =?";
@@ -56,6 +57,8 @@ const updateProducts = (req, res) => {
     return res.json(result);
   });
 };
+
+
 const deleteProducts = (req, res) => {
   const id = req.params.id;
   const q = "DELETE FROM products WHERE id =?";

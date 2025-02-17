@@ -78,7 +78,7 @@ const ShowCategory = () => {
                       <img
                         src={`/uploads/${item.image}`}
                         alt="product"
-                        className="w-12 h-12 rounded-full border border-gray-300"
+                        className="w-[60px] h-[60px] object-cover rounded-full border border-gray-300"
                       />
                     </td>
                     <td className="px-4 py-3 text-center">{item.title}</td>

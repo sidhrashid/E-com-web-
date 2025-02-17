@@ -30,32 +30,35 @@ const UpdateCategory = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "image") {
+    if (name === "image" && files.length > 0) {
       setCategory({
         ...category,
-        image: files[0],
+        image: files[0], 
       });
     } else {
       setCategory({ ...category, [name]: value });
     }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(category);
+    console.log("Updating Category with ID:", id);
+    console.log("Form Data Before Sending:", category);
+    
     const formData = new FormData();
-    formData.append("title", category.title);
     formData.append("image", category.image);
-
+    formData.append("title", category.title);
+  
     try {
       const response = await axios.put(`${UpdateCategoryApi}${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
+  
       console.log("Server Response:", response.data);
-      alert("Product added successfully");
+      alert("Category updated successfully!");
       navigate("/admin/category");
     } catch (error) {
       if (error.response) {
@@ -65,6 +68,8 @@ const UpdateCategory = () => {
       }
     }
   };
+  
+  
 
   return (
     <>
@@ -106,7 +111,7 @@ const UpdateCategory = () => {
             type="submit"
             className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
           >
-            Add Category
+            Update Category
           </button>
         </form>
       </section>

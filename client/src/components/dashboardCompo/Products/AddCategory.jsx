@@ -28,8 +28,8 @@ const AddCategory = () => {
     e.preventDefault();
     console.log(category);
     const formData = new FormData();
-    formData.append("title", category.title);
     formData.append("image", category.image);
+    formData.append("title", category.title);
 
     try {
       const response = await axios.post(`${AddCategoryApi}`, formData, {

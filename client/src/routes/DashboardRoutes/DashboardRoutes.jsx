@@ -11,13 +11,20 @@ function DashboardRoute() {
   return (
     <div>
       <Routes>
+
+        {/* ------------------ Products ---------------------- */}
+
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/addproduct" element={<AddProducts />} />
+        <Route path="/update/:id" element={<UpdateProducts />} />
+
+
+       {/* ------------------ category ---------------------- */}
+       
         <Route path="/category" element={<ShowCategory />} />
         <Route path="/updatecategory/:id" element={<UpdateCategory />} />
         <Route path="/addcategory" element={<AddCategory />} />
-        <Route path="/addproduct" element={<AddProducts />} />
-        <Route path="/update/:id" element={<UpdateProducts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
