@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Hoc from "../Hoc";
 import { NavLink } from "react-router-dom";
+import DeleteModal from "../Modal/DeleteModal";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const GET_API = import.meta.env.VITE_GET_API;
 const DeleteApi = import.meta.env.VITE_DELETE_API;
 
-const Product = () => {
+const ShowAllProducts = () => {
   const [product, setProduct] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   useEffect(() => {
     fetchProduct();
@@ -22,19 +27,27 @@ const Product = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?"))
-      return;
+  const handleDelete = (id) => {
+    setSelectedProductId(id);
+    setModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedProductId) return;
 
     try {
-      await axios.delete(`${DeleteApi}${id}`);
+      await axios.delete(`${DeleteApi}${selectedProductId}`);
+      toast.success("Deleted successfully!");
+
+      setModalOpen(false);
+      setSelectedProductId(null);
       fetchProduct();
     } catch (error) {
       console.error(
         "Error deleting product:",
         error.response?.data || error.message
       );
-      alert("Failed to delete product. Please try again.");
+      toast.error("Failed to delete product. Please try again.");
     }
   };
 
@@ -64,7 +77,7 @@ const Product = () => {
                 <th className="px-4 py-3 w-24">Categories</th>
                 <th className="px-4 py-3 w-24">Image</th>
                 <th className="px-4 py-3 w-32">Name</th>
-                <th className="px-4 py-3 w-56">Description</th>{" "}
+                <th className="px-4 py-3 w-56">Description</th>
                 <th className="px-4 py-3 w-24">Price</th>
                 <th className="px-4 py-3 w-24">Status</th>
                 <th className="px-4 py-3 w-24">Action</th>
@@ -86,10 +99,10 @@ const Product = () => {
                     />
                   </td>
                   <td className="px-4 py-3 text-center">{item.name}</td>
-
-                  <td className="px-4 py-3 text-center truncate overflow-hidden whitespace-nowrap max-w-[200px]">
-                    {item.description}
-                  </td>
+                  <td
+                    className="px-4 py-3 text-center truncate overflow-hidden whitespace-nowrap max-w-[200px]"
+                    dangerouslySetInnerHTML={{ __html: item.description }}
+                  />
 
                   <td className="px-4 py-3 text-center">{item.price}</td>
                   <td className="px-4 py-3 text-center">
@@ -103,7 +116,7 @@ const Product = () => {
                   <td className="text-center space-x-1">
                     {/* Edit Button */}
                     <NavLink to={`/admin/update/${item.id}`}>
-                      <button className=" px-2 py-1 border  text-blue-600 rounded-md hover:bg-gray-100 transition duration-300">
+                      <button className="px-2 py-1 border text-blue-600 rounded-md hover:bg-gray-100 transition duration-300">
                         <i className="fa-solid fa-pencil text-sm"></i>
                       </button>
                     </NavLink>
@@ -122,8 +135,16 @@ const Product = () => {
           </table>
         </main>
       </section>
+
+      <DeleteModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmDelete}
+      />
+
+      <ToastContainer position="top-right" autoClose={2000} />
     </>
   );
 };
 
-export default Product;
+export default ShowAllProducts;

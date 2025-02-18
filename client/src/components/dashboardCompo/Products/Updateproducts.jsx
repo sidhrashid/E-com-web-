@@ -4,6 +4,8 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Hoc from "../Hoc";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UpdateApi = import.meta.env.VITE_UPDATE_API;
 const CategoryApi = import.meta.env.VITE_CATEGORY_API;
@@ -86,14 +88,17 @@ function UpdateProducts() {
       });
 
       console.log("Server Response:", response.data);
-      alert("Product added successfully");
-      navigate("/admin/products");
+      toast.success("Product updated successfully!");
+      setTimeout(() => {
+        navigate("/admin/products");
+      }, 500);
     } catch (error) {
       if (error.response) {
         console.error("Server Error:", error.response.data);
       } else {
         console.error("Request Error:", error.message);
       }
+      toast.error("Failed to update product. Please try again.");
     }
   };
 
@@ -131,6 +136,7 @@ function UpdateProducts() {
                     value={products.price}
                     onChange={handleChange}
                     placeholder="Enter Price"
+                    onWheel={(e) => e.target.blur()}
                     className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
@@ -194,13 +200,15 @@ function UpdateProducts() {
                   type="submit"
                   className="bg-blue-600 text-white px-3 py-1 sm:px-5 sm:py-2 rounded-lg hover:bg-blue-700 transition font-medium shadow-lg"
                 >
-                  Submit
+                  Update
                 </button>
               </div>
             </form>
           </div>
         </main>
       </section>
+
+      <ToastContainer position="top-right" autoClose={2000} />
     </>
   );
 }

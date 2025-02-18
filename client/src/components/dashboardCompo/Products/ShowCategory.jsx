@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Hoc from "../Hoc";
 import axios from "axios";
+import DeleteModal from "../Modal/DeleteModal";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const GetCategoryApi = import.meta.env.VITE_CATEGORY_API;
+const DeleteCategoryApi = import.meta.env.VITE_DELETE_CATEGORY_API;
 
 const ShowCategory = () => {
   const [product, setProduct] = useState([]);
-
-  const GetCategoryApi = import.meta.env.VITE_CATEGORY_API;
-  const DeleteCategoryApi = import.meta.env.VITE_DELETE_CATEGORY_API;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   useEffect(() => {
     fetchAllData();
@@ -22,19 +27,26 @@ const ShowCategory = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this category?"))
-      return;
+  const handleDelete = (id) => {
+    setSelectedProductId(id);
+    setModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedProductId) return;
 
     try {
-      await axios.delete(`${DeleteCategoryApi}/${id}`);
+      await axios.delete(`${DeleteCategoryApi}/${selectedProductId}`);
+      toast.success("Deleted successfully!"); 
+      setModalOpen(false);
+      setSelectedProductId(null);
       fetchAllData();
     } catch (error) {
       console.error(
         "Error deleting category:",
         error.response?.data || error.message
       );
-      alert("Failed to delete category. Please try again.");
+      toast.error("Failed to delete category. Please try again."); 
     }
   };
 
@@ -43,7 +55,6 @@ const ShowCategory = () => {
       <Hoc />
       <section id="content" className="p-4 flex justify-center">
         <main className="w-full max-w-5xl">
-          {/* Add Button */}
           <div className="flex flex-col sm:flex-row items-center justify-between pb-4 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-800 text-center sm:text-left">
               Categories
@@ -55,7 +66,6 @@ const ShowCategory = () => {
             </NavLink>
           </div>
 
-          {/* Product Table */}
           <div className="overflow-x-auto">
             <table className="w-full border border-gray-300 rounded-lg shadow-md table-auto">
               <thead>
@@ -90,13 +100,11 @@ const ShowCategory = () => {
                       </label>
                     </td>
                     <td className="px-4 py-3 text-center space-x-2">
-                      {/* Edit Button */}
                       <NavLink to={`/admin/updatecategory/${item.id}`}>
                         <button className="px-2 py-1 border text-blue-600 rounded-md hover:bg-gray-100 transition duration-300">
                           <i className="fa-solid fa-pencil text-sm"></i>
                         </button>
                       </NavLink>
-                      {/* Delete Button */}
                       <button
                         onClick={() => handleDelete(item.id)}
                         className="px-2 py-1 text-red-600 rounded-md border hover:bg-gray-100 transition duration-300"
@@ -111,6 +119,13 @@ const ShowCategory = () => {
           </div>
         </main>
       </section>
+
+      <DeleteModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmDelete}
+      />
+      <ToastContainer position="top-right" autoClose={2000} />
     </>
   );
 };

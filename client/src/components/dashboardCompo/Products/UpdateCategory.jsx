@@ -2,6 +2,8 @@ import Hoc from "../Hoc";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UpdateCategoryApi = import.meta.env.VITE_UPDATE_CATEGORY_API;
 const GetCategoryByIdApi = import.meta.env.VITE_GET_CATEGORY_BY_ID_API;
@@ -58,18 +60,19 @@ const UpdateCategory = () => {
       });
   
       console.log("Server Response:", response.data);
-      alert("Category updated successfully!");
-      navigate("/admin/category");
+      toast.success("Category updated successfully!");
+      setTimeout(() => {
+        navigate("/admin/category");
+      }, 500);
     } catch (error) {
       if (error.response) {
         console.error("Server Error:", error.response.data);
       } else {
         console.error("Request Error:", error.message);
       }
+      toast.error("Failed to update category. Please try again.");
     }
   };
-  
-  
 
   return (
     <>
@@ -115,6 +118,9 @@ const UpdateCategory = () => {
           </button>
         </form>
       </section>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-right" autoClose={2000} />
     </>
   );
 };

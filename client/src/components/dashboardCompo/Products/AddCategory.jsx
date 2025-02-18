@@ -2,6 +2,8 @@ import Hoc from "../Hoc";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddCategoryApi = import.meta.env.VITE_ADD_CATEGORY_API;
 
@@ -32,21 +34,23 @@ const AddCategory = () => {
     formData.append("title", category.title);
 
     try {
-      const response = await axios.post(`${AddCategoryApi}`, formData, {
+      axios.post(`${AddCategoryApi}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      console.log("Server Response:", response.data);
-      alert("Product added successfully");
-      navigate("/admin/category");
+      toast.success("Item added successfully!");
+      setTimeout(() => {
+        navigate("/admin/category");
+      }, 1000);
     } catch (error) {
       if (error.response) {
         console.error("Server Error:", error.response.data);
       } else {
         console.error("Request Error:", error.message);
       }
+      toast.error("Failed to add product. Please try again.");
     }
   };
 
@@ -94,6 +98,7 @@ const AddCategory = () => {
           </button>
         </form>
       </section>
+      <ToastContainer position="top-right" autoClose={2000} />
     </>
   );
 };

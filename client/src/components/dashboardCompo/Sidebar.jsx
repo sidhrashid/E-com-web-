@@ -33,11 +33,8 @@ const Sidebar = ({ isOpen }) => {
             className={location.pathname === "/admin/category" ? "active" : ""}
           >
             <NavLink to="/admin/category">
-              {/* <i className="bx bxs-shopping-bag-alt"></i> */}
-              <span className="pl-2">
-                <box-icon name="category"></box-icon>
-              </span>
-              <span className="px-2 pb-1 text">Categories</span>
+              <i className="bx bx-category"></i>
+              <span className="text">Categories</span>
             </NavLink>
           </li>
           <li

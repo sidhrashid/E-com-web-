@@ -4,6 +4,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Hoc from "../Hoc";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddApi = import.meta.env.VITE_ADD_API;
 const CategoryApi = import.meta.env.VITE_CATEGORY_API;
@@ -53,26 +55,28 @@ function AddProducts() {
     formData.append("image", products.image);
     formData.append("category_id", products.category_id);
     formData.append("description", products.description);
-
+  
     try {
-      const response = await axios.post(`${AddApi}`, formData, {
+      await axios.post(`${AddApi}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log("Server Response:", response.data);
-      alert("Product added successfully");
-      navigate("/admin/products");
+  
+      toast.success("Product added successfully!");
+      setTimeout(() => {
+        navigate("/admin/products");  
+      }, 1000);  
     } catch (error) {
       if (error.response) {
         console.error("Server Error:", error.response.data);
       } else {
         console.error("Request Error:", error.message);
       }
+      toast.error("Failed to add product. Please try again.");
     }
   };
-
+  
   return (
     <>
       <Hoc />
@@ -107,6 +111,7 @@ function AddProducts() {
                     value={products.price}
                     onChange={handleChange}
                     placeholder="Enter Price"
+                    onWheel={(e) => e.target.blur()}
                     className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
@@ -181,6 +186,8 @@ function AddProducts() {
           </div>
         </main>
       </section>
+      <ToastContainer position="top-right" autoClose={2000} />
+
     </>
   );
 }
