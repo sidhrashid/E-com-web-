@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Hoc from "../Hoc";
 import axios from "axios";
-import DeleteModal from "../Modal/DeleteModal";
+import DeleteModal from "../../Modal/DeleteModal";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -88,7 +88,7 @@ const ShowCategory = () => {
                       <img
                         src={`/uploads/${item.image}`}
                         alt="product"
-                        className="w-[60px] h-[60px] object-cover rounded-full border border-gray-300"
+                        className="w-[60px] h-[60px]  rounded-full border border-gray-300"
                       />
                     </td>
                     <td className="px-4 py-3 text-center">{item.title}</td>

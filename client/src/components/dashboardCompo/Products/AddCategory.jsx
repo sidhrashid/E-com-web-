@@ -40,10 +40,10 @@ const AddCategory = () => {
         },
       });
 
-      toast.success("Item added successfully!");
       setTimeout(() => {
-        navigate("/admin/category");
+        toast.success("Item added successfully!");
       }, 1000);
+      navigate("/admin/category");
     } catch (error) {
       if (error.response) {
         console.error("Server Error:", error.response.data);

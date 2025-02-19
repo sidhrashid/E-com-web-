@@ -1,94 +1,33 @@
+import { useEffect, useState, useContext } from "react";
 import SearchbarSmall from "../../pages/client/home/SearchbarSmall";
 import ProductCard from "./ProductCard";
-const allProducts = [
-  {
-    id: 1,
-    title: "Nike Air Max ",
-    price: 120,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/e/h/o/-original-imah8affqsgkfhzc.jpeg?q=70",
-    description: "High-quality running shoes.",
-  },
-  {
-    id: 2,
-    title: "Adidas Running Shoes",
-    price: 100,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/e/h/o/-original-imah8affqsgkfhzc.jpeg?q=70",
-    description: "Comfortable and stylish sneakers.",
-  },
-  {
-    id: 3,
-    title: "Smartphone",
-    price: 299,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/k/k/g/-original-imah8pdgqmc2mg26.jpeg?q=70",
-    description: "Latest model with great features.",
-  },
-  {
-    id: 4,
-    title: "Wireless Headphones",
-    price: 80,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/k/k/g/-original-imah8pdgqmc2mg26.jpeg?q=70",
-    description: "Noise-cancelling wireless headphones.",
-  },
-  {
-    id: 5,
-    title: "Gaming Laptop",
-    price: 999,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/k/k/g/-original-imah8pdgqmc2mg26.jpeg?q=70",
-    description: "High-performance laptop for gaming.",
-  },
-  {
-    id: 6,
-    title: "Digital Watch ",
-    price: 50,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/k/k/g/-original-imah8pdgqmc2mg26.jpeg?q=70",
+import axios from "axios";
+import { SearchContext } from "../../context/SearchContext";
 
-    description: "Stylish and waterproof digital watch.",
-  },
-  {
-    id: 7,
-    title: "Digital Watch ",
-    price: 50,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/k/k/g/-original-imah8pdgqmc2mg26.jpeg?q=70",
-
-    description: "Stylish and waterproof digital watch.",
-  },
-  {
-    id: 8,
-    title: "Digital Watch ",
-    price: 50,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/k/k/g/-original-imah8pdgqmc2mg26.jpeg?q=70",
-
-    description: "Stylish and waterproof digital watch.",
-  },
-  {
-    id: 9,
-    title: "Digital Watch ",
-    price: 50,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/k/k/g/-original-imah8pdgqmc2mg26.jpeg?q=70",
-
-    description: "Stylish and waterproof digital watch.",
-  },
-  {
-    id: 10,
-    title: "Digital Watch ",
-    price: 50,
-    image:
-      "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/k/k/g/-original-imah8pdgqmc2mg26.jpeg?q=70",
-
-    description: "Stylish and waterproof digital watch.",
-  },
-];
+const GET_API = import.meta.env.VITE_GET_API;
 
 const AllProducts = () => {
+  const [products, setProducts] = useState([]);
+  const { searchQuery } = useContext(SearchContext); 
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
+  const fetchProduct = async () => {
+    try {
+      const res = await axios.get(`${GET_API}`);
+      setProducts(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 🔹 Apply search filter
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase()) 
+  );
+
   return (
     <>
       <SearchbarSmall />
@@ -97,15 +36,20 @@ const AllProducts = () => {
           All Products
         </h1>
 
-        <div className="w-h-screen flex flex-wrap justify-evenly gap-x-3 gap-y-7 ">
-          {allProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              image={product.image}
-              title={product.title}
-              price={product.price}
-            />
-          ))}
+        <div className="w-h-screen flex flex-wrap justify-evenly gap-x-3 gap-y-7">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                image={product.image}
+                name={product.name}
+                price={product.price}
+              />
+            ))
+          ) : (
+            <p className="text-center text-red-500">No products found</p>
+          )}
         </div>
       </div>
     </>

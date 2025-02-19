@@ -12,7 +12,7 @@ const getAllProducts = (req, res) => {
 const getProductsById = (req, res) => {
   const id = req.params.id;
   const q = "SELECT * FROM products WHERE id =?";
-  db.query(q, id, (err, result) => {
+  db.query(q, [id], (err, result) => {
     if (err) {
       return res.status(500);
     }
@@ -71,7 +71,7 @@ const deleteProducts = (req, res) => {
 };
 
 const getProductsByCategory = (req, res) => {
-  const category = req.params.category;
+  const category = req.params.categories;
   console.log(category);
   const q = "SELECT * FROM products WHERE category_id = ?";
   db.query(q, category, (err, result) => {

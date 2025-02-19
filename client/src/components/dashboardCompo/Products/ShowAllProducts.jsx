@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Hoc from "../Hoc";
 import { NavLink } from "react-router-dom";
-import DeleteModal from "../Modal/DeleteModal";
+import DeleteModal from "../../Modal/DeleteModal";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

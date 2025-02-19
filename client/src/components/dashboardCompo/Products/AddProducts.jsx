@@ -55,18 +55,18 @@ function AddProducts() {
     formData.append("image", products.image);
     formData.append("category_id", products.category_id);
     formData.append("description", products.description);
-  
+
     try {
       await axios.post(`${AddApi}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-  
-      toast.success("Product added successfully!");
+
       setTimeout(() => {
-        navigate("/admin/products");  
-      }, 1000);  
+        toast.success("Product added successfully!");
+      }, 1000);
+      navigate("/admin/products");
     } catch (error) {
       if (error.response) {
         console.error("Server Error:", error.response.data);
@@ -76,7 +76,7 @@ function AddProducts() {
       toast.error("Failed to add product. Please try again.");
     }
   };
-  
+
   return (
     <>
       <Hoc />
@@ -187,7 +187,6 @@ function AddProducts() {
         </main>
       </section>
       <ToastContainer position="top-right" autoClose={2000} />
-
     </>
   );
 }
