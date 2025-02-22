@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Hoc from "../Hoc";
+import Hoc from "../../../components/dashboardCompo/Hoc";
 import { NavLink } from "react-router-dom";
-import DeleteModal from "../../Modal/DeleteModal";
+import DeleteModal from "../../../components/Modal/DeleteModal";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -33,7 +33,6 @@ const ShowAllProducts = () => {
   };
 
   const confirmDelete = async () => {
-    if (!selectedProductId) return;
 
     try {
       await axios.delete(`${DeleteApi}${selectedProductId}`);

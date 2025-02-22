@@ -1,21 +1,18 @@
 import { FaSearch } from "react-icons/fa";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 
 function Searchbar() {
   const { setSearchQuery } = useContext(SearchContext);
   const [query, setQuery] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setSearchQuery(query.trim()); 
-  };
-
-  // Real-time search (optional)
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setQuery(value);
-    setSearchQuery(value.trim()); 
+    const trimmedQuery = query.trim();
+    setSearchQuery(trimmedQuery);
+    navigate("/allproducts");
   };
 
   return (
@@ -27,7 +24,7 @@ function Searchbar() {
         type="text"
         placeholder="Search"
         value={query}
-        onChange={handleInputChange}
+        onChange={(e) => setQuery(e.target.value)}
         className="bg-transparent outline-none w-full"
       />
       <button type="submit" className="cursor-pointer p-1 hover:bg-gray-200 rounded-md">

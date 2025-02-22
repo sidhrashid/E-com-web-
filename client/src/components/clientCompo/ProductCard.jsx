@@ -2,6 +2,7 @@
 import { NavLink } from "react-router-dom";
 
 const ProductCard = ({ id, image, name, price, onAddToCart }) => {
+  
   return (
     <div>
       <div className="w-[122px] h-[265px] md:w-[160px] rounded-lg p-3 flex flex-col items-center bg-white shadow-lg">

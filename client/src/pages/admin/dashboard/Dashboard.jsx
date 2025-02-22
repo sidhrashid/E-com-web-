@@ -1,5 +1,6 @@
-import "../../assets/css/dashboardCss/main.css";
-import Hoc from "./Hoc";
+import Hoc from "../../../components/dashboardCompo/Hoc";
+import "../../../assets/css/dashboardCss/main.css"; 
+
 
 const Dashboard = () => {
   return (

@@ -8,7 +8,7 @@ const ProductsDetail = () => {
   const [products, setProducts] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const { id } = useParams();
-  
+
   useEffect(() => {
     if (id) {
       fetchProducts();
@@ -24,17 +24,14 @@ const ProductsDetail = () => {
     }
   };
 
-  if (!products) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+  // Utility function to remove <p> tags
+  const removePTags = (html) => {
+    return html.replace(/<p>/g, "").replace(/<\/p>/g, "");
+  };
 
   const getDescriptionWithReadMore = () => {
-    const description = products.description;
-    
+    const description = removePTags(products.description); // <p> tag remove karo
+
     if (description.includes("braided cab")) {
       const parts = description.split("braided cab");
       return (
@@ -51,13 +48,7 @@ const ProductsDetail = () => {
               </span>
             </>
           )}
-          {showFullDescription && (
-            <span
-              dangerouslySetInnerHTML={{
-                __html: parts.slice(1).join("braided cab")
-              }}
-            />
-          )}
+          {showFullDescription && parts.slice(1).join("braided cab")}
         </>
       );
     } else {
@@ -66,11 +57,7 @@ const ProductsDetail = () => {
           {!showFullDescription ? (
             description.substring(0, 150) + "..."
           ) : (
-            <span
-              dangerouslySetInnerHTML={{
-                __html: description
-              }}
-            />
+            description
           )}
           {!showFullDescription && (
             <span
@@ -84,6 +71,14 @@ const ProductsDetail = () => {
       );
     }
   };
+
+  if (!products) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">

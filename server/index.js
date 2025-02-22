@@ -8,6 +8,7 @@ dotenv.config();
 const userlogin = require("./routes/loginRoute/UserLoginRoute");
 const products = require("./routes/pagesRoute/ProductsRoute");
 const category = require("./routes/pagesRoute/ProCategoryRoute");
+const adminUser = require("./routes/loginRoute/AdminLoginRoute");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", userlogin);
 app.use("/", products);
 app.use("/", category);
+app.use("/", adminUser);
 
 
 

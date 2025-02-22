@@ -33,18 +33,18 @@ const Sidebar = ({ isOpen }) => {
             className={location.pathname === "/admin/category" ? "active" : ""}
           >
             <NavLink to="/admin/category">
-              <i className="bx bx-category"></i>
+              <i className="bx bxs-category"></i>
               <span className="text">Categories</span>
             </NavLink>
           </li>
           <li
             className={
-              location.pathname === "/admin/dashboard3" ? "active" : ""
+              location.pathname === "/admin/alladminusers" ? "active" : ""
             }
           >
-            <NavLink to="/admin/dashboard">
-              <i className="bx bxs-shopping-bag-alt"></i>
-              <span className="text">Product</span>
+            <NavLink to="/admin/alladminusers">
+              <i className="bx bxs-user-badge"></i>
+              <span className="text">Admin Users</span>
             </NavLink>
           </li>
         </ul>

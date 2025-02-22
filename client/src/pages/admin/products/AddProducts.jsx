@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import Hoc from "../Hoc";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Hoc from "../../../components/dashboardCompo/Hoc";
 
 const AddApi = import.meta.env.VITE_ADD_API;
 const CategoryApi = import.meta.env.VITE_CATEGORY_API;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import Hoc from "../Hoc";
+import Hoc from "../../../components/dashboardCompo/Hoc";
 import axios from "axios";
-import DeleteModal from "../../Modal/DeleteModal";
+import DeleteModal from "../../../components/Modal/DeleteModal";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
